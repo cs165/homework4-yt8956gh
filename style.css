@@ -87,3 +87,17 @@ body {
 .inactive {
   display: none !important;
 }
+
+#bottomBar{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  height: 70px;
+  box-sizing: border-box;
+}
+
+#controlButton{
+  height: 60px;
+  width: 60px;
+}

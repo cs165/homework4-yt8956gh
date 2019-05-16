@@ -3,7 +3,9 @@
 //
 // See HW4 writeup for more hints and details.
 class MenuScreen {
-  constructor() {
+  constructor(containerElement) {
+
+    this.containerElement = containerElement;
 
     this.onStreamProcess = this.onStreamProcess.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
@@ -68,9 +70,15 @@ class MenuScreen {
 
     console.log(tmp);
 
+    this._hide();
+
     this.audioPlayer.setSong(this.optionalItem[this.selectedIndex]["songUrl"]);
     this.audioPlayer.setKickCallback(()=> {console.log('kick!');});
     this.audioPlayer.play();
+  }
+
+  _hide(){
+    this.containerElement.classList.add("inactive");
   }
 }
   

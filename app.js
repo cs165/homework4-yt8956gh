@@ -4,7 +4,9 @@
 // See HW4 writeup for more hints and details.
 class App {
   constructor() {
-    this.menu = new MenuScreen();
+
+    const menuElement = document.querySelector("#menu");
+    this.menu = new MenuScreen(menuElement);
   }
   // TODO(you): Add methods as necessary.
 }
