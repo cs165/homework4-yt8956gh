@@ -8,23 +8,15 @@ class MenuScreen {
     this.onStreamProcess = this.onStreamProcess.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
 
-    const selectElem = document.querySelector('#song-selector');
-    this.selectContainer = selectElem;
 
     this.optionalItem = [];
-
     this.randomTheme();
-
     this.selectedIndex=0;
-
     this.audioPlayer = new AudioPlayer();
+    this.selectContainer = document.querySelector('#song-selector');
 
-
-    selectElem.addEventListener('change', function() {
-       this.selectedIndex = selectElem.selectedIndex;
-       console.log(this.selectedIndex);
-       console.log('index selected: ' + this.selectedIndex);
-       console.log('option selected: ' + selectElem.options[this.selectedIndex].value);
+    this.selectContainer.addEventListener('change', function() {
+       this.selectedIndex = this.selectContainer.selectedIndex;
      }.bind(this));
 
 
@@ -63,13 +55,9 @@ class MenuScreen {
 
   randomTheme(){
     let item = ['candy', 'charlie brown', 'computers', 'dance', 'donuts', 'hello kitty', 'flowers', 'nature', 'turtles', 'space'];
-
     let randomInt = Math.floor(Math.random()*item.length);
 
-    console.log("Random-Index-Of-Theme:"+randomInt);
-
     const themeElem = document.querySelector('#query-input');
-
     themeElem.value = item[randomInt];
   }
 
@@ -84,17 +72,6 @@ class MenuScreen {
     selector.disabled=true;
     formElement.disabled = true;
     queryInput.disabled=true;
-
-    console.log("Index:"+this.selectedIndex);
-    console.log("Input:"+text);
-    console.log("songUrl:"+this.optionalItem[this.selectedIndex]["songUrl"]);
-
-    let tmp={};
-    tmp["songValue"] = this.optionalItem[this.selectedIndex]["title"];
-    tmp["gifValue"] = text;
-
-    console.log(tmp);
-
 
     this.audioPlayer.setSong(this.optionalItem[this.selectedIndex]["songUrl"]);
     this.audioPlayer.setKickCallback(this._onKick);
