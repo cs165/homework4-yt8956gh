@@ -12,6 +12,7 @@ class MenuScreen {
     this.optionalItem = [];
     this.selectedIndex=0;
     this.selectContainer = document.querySelector('#song-selector');
+    this.errorDiv = document.querySelector("#error");
 
     this.selectContainer.addEventListener('change', function() {
        this.selectedIndex = this.selectContainer.selectedIndex;
@@ -52,18 +53,8 @@ class MenuScreen {
 
   _onSubmit(event){
     event.preventDefault();
-    const selector = document.querySelector('#song-selector');
     const queryInput = document.querySelector('#query-input');
     const text = queryInput.value;
-
-    selector.disabled=true;
-    queryInput.disabled=true;
-
-    let tmp={};
-    tmp["songValue"] = this.optionalItem[this.selectedIndex]["title"];
-    tmp["gifValue"] = text;
-
-    console.log(tmp);
 
     fetch("http://api.giphy.com/v1/gifs/search?q="+encodeURIComponent(text)+"&limit=25&rating=g&api_key=FjJaTP04iY5rAwcEASKET51wyx9VZ2V8")
         .then( response => {return response.json();}, response=>{console.log(response);})
@@ -72,15 +63,28 @@ class MenuScreen {
 
   onProcessImageUrl(json){
 
-    console.log(json);
-
-    const data={"songUrl":this.optionalItem[this.selectedIndex]["songUrl"], "json":json}
-    this.hide();
-    document.dispatchEvent(new CustomEvent("toMusic", {detail:data}));
+    if(json.data.length===0){
+      console.log("Error: there is no GIF in this query");
+      this.showErrorMsg();
+    }
+    else{
+      this.hideErrorMsg();
+      this.hide();
+      const data={"songUrl":this.optionalItem[this.selectedIndex]["songUrl"], "json":json}
+      document.dispatchEvent(new CustomEvent("toMusic", {detail:data}));
+    }
   }
 
   hide(){
     this.containerElement.classList.add("inactive");
+  }
+
+  showErrorMsg(){
+    this.errorDiv.classList.remove("inactive");
+  }
+
+  hideErrorMsg(){
+    this.errorDiv.classList.add("inactive");
   }
 }
   

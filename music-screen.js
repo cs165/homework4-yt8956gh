@@ -12,14 +12,34 @@ class MusicScreen {
     this.containerElement = containerElement;
     this.musicScreenInit = this.musicScreenInit.bind(this);
     this.onKick = this.onKick.bind(this);
+    this.onClick = this.onClick.bind(this);
 
     this.imageUrl = [];
     this.audioPlayer = new AudioPlayer();
-    this.imageIndex=0;
+    this.imageIndex = 0;
+    this.NowShowPause=true;
+    this.controlButton = document.querySelector("#controlButton");
 
     this.hide();
     this.show = this.show.bind(this);
     document.addEventListener("toMusic",this.musicScreenInit);
+    this.controlButton.addEventListener("click", this.onClick);
+  }
+
+  onClick(event){
+
+    if(this.NowShowPause)
+    {
+      event.currentTarget.style.backgroundImage="url('images/play.png')";
+      this.NowShowPause = false;
+      this.audioPlayer.pause();
+    }
+    else
+    {
+      event.currentTarget.style.backgroundImage="url('images/pause.png')";
+      this.NowShowPause = true;
+      this.audioPlayer.play();
+    }
   }
 
   hide(){
@@ -51,12 +71,15 @@ class MusicScreen {
 
   onKick(){
     console.log('kick!');
+    this.GifDisplay();
+  }
 
+  GifDisplay(){
     const imageDiv = document.querySelector("#gifPicture");
     imageDiv.style.backgroundImage="url('"+this.imageUrl[this.imageIndex]+"')";
 
-    console.log("URL: "+"url('"+this.imageUrl[this.imageIndex]+"')");
     this.imageIndex = (this.imageIndex+1)%this.imageUrl.length;
+
     console.log("Image-Index:"+this.imageIndex);
   }
 }
