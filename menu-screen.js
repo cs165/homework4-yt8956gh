@@ -8,9 +8,7 @@ class MenuScreen {
     this.onStreamProcess = this.onStreamProcess.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
 
-
     this.optionalItem = [];
-    this.randomTheme();
     this.selectedIndex=0;
     this.audioPlayer = new AudioPlayer();
     this.selectContainer = document.querySelector('#song-selector');
@@ -21,20 +19,17 @@ class MenuScreen {
 
 
     fetch("https://fullstackccu.github.io/homeworks/hw4/songs.json")
-        .then(this.onResponse,this.onError)
+        .then(
+            response => {return response.json();},
+            response => {console.log(response.status);})
         .then(this.onStreamProcess);
 
 
     const formElmt=document.querySelector("form");
     formElmt.addEventListener("submit", this._onSubmit);
+
+    this.randomTheme();
   }
-
-  onResponse(response){
-    console.log(response.status);
-
-    return response.json();
-  }
-
 
   onStreamProcess(json){
     console.log(json);
@@ -44,13 +39,8 @@ class MenuScreen {
       this.optionalItem.push(json[i]);
       let tmpItem = document.createElement("option");
       tmpItem.textContent = json[i]["artist"] +':'+ json[i]["title"];
-      console.log(tmpItem.textContent);
       this.selectContainer.appendChild(tmpItem);
     }
-  }
-
-  onError(response){
-    console.log(response.status);
   }
 
   randomTheme(){
@@ -61,10 +51,9 @@ class MenuScreen {
     themeElem.value = item[randomInt];
   }
 
-
   _onSubmit(event){
     event.preventDefault();
-    const selector = document.querySelector('#song-selector')
+    const selector = document.querySelector('#song-selector');
     const queryInput = document.querySelector('#query-input');
     const text = queryInput.value;
     const formElement = document.querySelector('#menu-form');
@@ -73,13 +62,16 @@ class MenuScreen {
     formElement.disabled = true;
     queryInput.disabled=true;
 
+    let tmp={};
+    tmp["songValue"] = this.optionalItem[this.selectedIndex]["title"];
+    tmp["gifValue"] = text;
+
+    console.log(tmp);
+
     this.audioPlayer.setSong(this.optionalItem[this.selectedIndex]["songUrl"]);
-    this.audioPlayer.setKickCallback(this._onKick);
+    this.audioPlayer.setKickCallback(()=> {console.log('kick!');});
     this.audioPlayer.play();
   }
-
-  _onKick() {
-    console.log('kick!');
-  }
-  
 }
+  
+
