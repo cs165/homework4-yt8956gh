@@ -6,8 +6,6 @@ class MenuScreen {
   constructor(containerElement) {
 
     this.containerElement = containerElement;
-
-    this.onStreamProcess = this.onStreamProcess.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
 
     this.optionalItem = [];
@@ -24,25 +22,24 @@ class MenuScreen {
         .then(
             response => {return response.json();},
             response => {console.log(response.status);})
-        .then(this.onStreamProcess);
+        .then(function (json) {
+
+          //console.log(json);
+          for(let i in json)
+          {
+            this.optionalItem.push(json[i]);
+            let tmpItem = document.createElement("option");
+            tmpItem.textContent = json[i]["artist"] +':'+ json[i]["title"];
+            this.selectContainer.appendChild(tmpItem);
+          }
+
+        }.bind(this));
 
 
     const formElmt=document.querySelector("form");
     formElmt.addEventListener("submit", this._onSubmit);
 
     this.randomTheme();
-  }
-
-  onStreamProcess(json){
-    console.log(json);
-
-    for(let i in json)
-    {
-      this.optionalItem.push(json[i]);
-      let tmpItem = document.createElement("option");
-      tmpItem.textContent = json[i]["artist"] +':'+ json[i]["title"];
-      this.selectContainer.appendChild(tmpItem);
-    }
   }
 
   randomTheme(){
@@ -58,10 +55,8 @@ class MenuScreen {
     const selector = document.querySelector('#song-selector');
     const queryInput = document.querySelector('#query-input');
     const text = queryInput.value;
-    const formElement = document.querySelector('#menu-form');
 
     selector.disabled=true;
-    formElement.disabled = true;
     queryInput.disabled=true;
 
     let tmp={};
@@ -70,15 +65,16 @@ class MenuScreen {
 
     console.log(tmp);
 
-    this._hide();
+    this.hide();
 
     this.audioPlayer.setSong(this.optionalItem[this.selectedIndex]["songUrl"]);
     this.audioPlayer.setKickCallback(()=> {console.log('kick!');});
     this.audioPlayer.play();
   }
 
-  _hide(){
+  hide(){
     this.containerElement.classList.add("inactive");
+    document.dispatchEvent(new CustomEvent("toMusic", {detail:null}))
   }
 }
   

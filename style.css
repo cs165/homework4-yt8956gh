@@ -94,10 +94,31 @@ body {
   justify-content: center;
   align-content: center;
   height: 70px;
+  width: 100%;
   box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+
 }
 
 #controlButton{
   height: 60px;
   width: 60px;
+}
+
+#gifPicture{
+
+  width: 100%;
+  height: calc(100% - 70px);
+  background-image: url("images/0001_AAFoiT5.jpg");
+  background-color: #ddfff8;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+#music{
+  height: 100vh;
+  width: 100vw;
 }

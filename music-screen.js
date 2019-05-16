@@ -8,8 +8,20 @@
 //
 // See HW4 writeup for more hints and details.
 class MusicScreen {
-  constructor() {
-    // TODO(you): Implement the constructor and add fields as necessary.
+  constructor(containerElement) {
+    this.containerElement = containerElement;
+    this.hide();
+
+    this.show = this.show.bind(this);
+
+    document.addEventListener("toMusic",this.show);
   }
-  // TODO(you): Add methods as necessary.
+
+  hide(){
+    this.containerElement.classList.add("inactive");
+  }
+
+  show(){
+    this.containerElement.classList.remove("inactive");
+  }
 }
