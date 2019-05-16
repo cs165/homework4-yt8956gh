@@ -7,10 +7,10 @@ class MenuScreen {
 
     this.containerElement = containerElement;
     this._onSubmit = this._onSubmit.bind(this);
+    this.onProcessImageUrl = this.onProcessImageUrl.bind(this);
 
     this.optionalItem = [];
     this.selectedIndex=0;
-    this.audioPlayer = new AudioPlayer();
     this.selectContainer = document.querySelector('#song-selector');
 
     this.selectContainer.addEventListener('change', function() {
@@ -65,16 +65,22 @@ class MenuScreen {
 
     console.log(tmp);
 
-    this.hide();
+    fetch("http://api.giphy.com/v1/gifs/search?q="+encodeURIComponent(text)+"&limit=25&rating=g&api_key=FjJaTP04iY5rAwcEASKET51wyx9VZ2V8")
+        .then( response => {return response.json();}, response=>{console.log(response);})
+        .then(this.onProcessImageUrl);
+  }
 
-    this.audioPlayer.setSong(this.optionalItem[this.selectedIndex]["songUrl"]);
-    this.audioPlayer.setKickCallback(()=> {console.log('kick!');});
-    this.audioPlayer.play();
+  onProcessImageUrl(json){
+
+    console.log(json);
+
+    const data={"songUrl":this.optionalItem[this.selectedIndex]["songUrl"], "json":json}
+    this.hide();
+    document.dispatchEvent(new CustomEvent("toMusic", {detail:data}));
   }
 
   hide(){
     this.containerElement.classList.add("inactive");
-    document.dispatchEvent(new CustomEvent("toMusic", {detail:null}))
   }
 }
   

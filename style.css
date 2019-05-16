@@ -102,11 +102,6 @@ body {
 
 }
 
-#controlButton{
-  height: 60px;
-  width: 60px;
-}
-
 #gifPicture{
 
   width: 100%;
@@ -121,4 +116,14 @@ body {
 #music{
   height: 100vh;
   width: 100vw;
+}
+
+#controlButton{
+  background-image: url("images/pause.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 60px;
+  width: 60px;
+  margin: auto;
 }
