@@ -47,13 +47,11 @@ class MenuScreen {
   onStreamProcess(json){
     console.log(json);
 
-    let index=0;
-
     for(let i in json)
     {
-      this.optionalItem[index]["title"]=json[i]['title'];
+      this.optionalItem.push(json[i]);
       let tmpItem = document.createElement("option");
-      tmpItem.textContent = json[i].artist +':'+ json[i].title;
+      tmpItem.textContent = json[i]["artist"] +':'+ json[i]["title"];
       console.log(tmpItem.textContent);
       this.selectContainer.appendChild(tmpItem);
     }
@@ -72,25 +70,33 @@ class MenuScreen {
 
     const themeElem = document.querySelector('#query-input');
 
-    themeElem.placeholder = item[randomInt];
+    themeElem.value = item[randomInt];
   }
 
 
   _onSubmit(event){
     event.preventDefault();
-
+    const selector = document.querySelector('#song-selector')
     const queryInput = document.querySelector('#query-input');
     const text = queryInput.value;
     const formElement = document.querySelector('#menu-form');
+
+    selector.disabled=true;
     formElement.disabled = true;
+    queryInput.disabled=true;
 
-    console.log("queryInput:"+text);
+    console.log("Index:"+this.selectedIndex);
+    console.log("Input:"+text);
+    console.log("songUrl:"+this.optionalItem[this.selectedIndex]["songUrl"]);
 
-    console.log("selectedIndex in queryInput:"+this.selectedIndex);
+    let tmp={};
+    tmp["songValue"] = this.optionalItem[this.selectedIndex]["title"];
+    tmp["gifValue"] = text;
 
-    console.log("this.optionalItem:"+this.optionalItem["鹹豆漿"]);
+    console.log(tmp);
 
-    this.audioPlayer.setSong(this.optionalItem[this.selectedIndex]);
+
+    this.audioPlayer.setSong(this.optionalItem[this.selectedIndex]["songUrl"]);
     this.audioPlayer.setKickCallback(this._onKick);
     this.audioPlayer.play();
   }
