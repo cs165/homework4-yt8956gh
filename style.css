@@ -140,7 +140,7 @@ body {
 }
 
 #controlButton{
-  background-image: url("images/pause.png");
+  background-image: url("images/play.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
