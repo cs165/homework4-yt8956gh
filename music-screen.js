@@ -68,7 +68,6 @@ class MusicScreen {
     for(let key in json.data)
     {
       let url = json.data[key].images.downsized.url;
-      console.log(url);
       imageUrl.push(url);
     }
 
