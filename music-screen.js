@@ -11,6 +11,7 @@ class MusicScreen {
   constructor(containerElement) {
     this.containerElement = containerElement;
     this.musicScreenInit = this.musicScreenInit.bind(this);
+    this.clickHiddenButton = this.clickHiddenButton.bind(this);
     this.onClick = this.onClick.bind(this);
     this.show = this.show.bind(this);
     let playButtonElement = document.getElementById("controlButton");
@@ -22,6 +23,9 @@ class MusicScreen {
 
     this.hide();
     document.addEventListener("toMusic", this.musicScreenInit);
+
+    this.hidenButton =  document.getElementById("hideButton");
+    this.hidenButton.addEventListener("onclick", this.clickHiddenButton);
 
     playButtonElement.onclick = this.onClick;
     console.log(playButtonElement);
@@ -57,8 +61,8 @@ class MusicScreen {
 
     this.audioPlayer.setSong(event.detail.songUrl);
     this.audioPlayer.setKickCallback(()=>{document.dispatchEvent(new Event("onKick"));});
-    this.audioPlayer.resume();
-    this.audioPlayer.play();
+    this.hidenButton.dispatchEvent(new Event('onclick'));
+
 
     for(let key in json.data)
     {
@@ -69,5 +73,9 @@ class MusicScreen {
 
     this.gifDisplay = new GifDisplay(imageUrl);
     this.show();
+  }
+
+  clickHiddenButton(){
+    this.audioPlayer.play();
   }
 }

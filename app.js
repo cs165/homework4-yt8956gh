@@ -11,5 +11,4 @@ class App {
     const musicElement = document.querySelector("#music");
     this.music = new MusicScreen(musicElement);
   }
-  // TODO(you): Add methods as necessary.
 }

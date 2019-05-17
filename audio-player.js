@@ -35,9 +35,6 @@ class AudioPlayer {
     this.dancer.pause();
   }
 
-  resume(){
-  }
-
   setKickCallback(kickCallback) {
     this.kickCallback = kickCallback;
   }
