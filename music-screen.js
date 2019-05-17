@@ -11,34 +11,34 @@ class MusicScreen {
   constructor(containerElement) {
     this.containerElement = containerElement;
     this.musicScreenInit = this.musicScreenInit.bind(this);
-    this.onKick = this.onKick.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.show = this.show.bind(this);
+    let playButtonElement = document.getElementById("controlButton");
 
-    this.imageUrl = [];
     this.audioPlayer = new AudioPlayer();
-    this.imageIndex = 0;
+    this.playButton = new PlayButton(playButtonElement);
+    this.gifDisplay = null;
     this.NowShowPause=true;
-    this.controlButton = document.querySelector("#controlButton");
 
     this.hide();
-    this.show = this.show.bind(this);
-    document.addEventListener("toMusic",this.musicScreenInit);
-    this.controlButton.addEventListener("click", this.onClick);
+    document.addEventListener("toMusic", this.musicScreenInit);
+
+    playButtonElement.onclick = this.onClick;
+    console.log(playButtonElement);
   }
 
-  onClick(event){
-
+  onClick(){
     if(this.NowShowPause)
     {
-      event.currentTarget.style.backgroundImage="url('images/play.png')";
       this.NowShowPause = false;
       this.audioPlayer.pause();
+      this.playButton.play();
     }
     else
     {
-      event.currentTarget.style.backgroundImage="url('images/pause.png')";
       this.NowShowPause = true;
       this.audioPlayer.play();
+      this.playButton.pause();
     }
   }
 
@@ -53,33 +53,20 @@ class MusicScreen {
   musicScreenInit(event){
 
     let json=event.detail.json;
-    let songUrl = event.detail.songUrl;
+    let imageUrl=[];
 
-    this.audioPlayer.setSong(songUrl);
-    this.audioPlayer.setKickCallback(this.onKick);
+    this.audioPlayer.setSong(event.detail.songUrl);
+    this.audioPlayer.setKickCallback(()=>{document.dispatchEvent(new Event("onKick"));});
     this.audioPlayer.play();
 
     for(let key in json.data)
     {
       let url = json.data[key].images.downsized.url;
       console.log(url);
-      this.imageUrl.push(url);
+      imageUrl.push(url);
     }
 
+    this.gifDisplay = new GifDisplay(imageUrl);
     this.show();
-  }
-
-  onKick(){
-    console.log('kick!');
-    this.GifDisplay();
-  }
-
-  GifDisplay(){
-    const imageDiv = document.querySelector("#gifPicture");
-    imageDiv.style.backgroundImage="url('"+this.imageUrl[this.imageIndex]+"')";
-
-    this.imageIndex = (this.imageIndex+1)%this.imageUrl.length;
-
-    console.log("Image-Index:"+this.imageIndex);
   }
 }

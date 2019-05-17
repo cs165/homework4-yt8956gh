@@ -99,18 +99,39 @@ body {
   position: fixed;
   bottom: 0;
   right: 0;
-
 }
 
 #gifPicture{
 
   width: 100%;
   height: calc(100% - 70px);
-  background-image: url("images/Pooh.jpg");
-  background-color: #ddfff8;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+}
+
+#backGif{
+    width: 100%;
+    height: calc(100% - 70px);
+    background-image: url("images/Pooh.jpg");
+    background-color: #ddfff8;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+
+#frontGif{
+    width: 100%;
+    height: calc(100% - 70px);
+    background-image: url("images/Pooh.jpg");
+    background-color: #ddfff8;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    right: 0;
 }
 
 #music{

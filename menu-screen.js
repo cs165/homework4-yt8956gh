@@ -25,7 +25,6 @@ class MenuScreen {
             response => {console.log(response.status);})
         .then(function (json) {
 
-          //console.log(json);
           for(let i in json)
           {
             this.optionalItem.push(json[i]);
@@ -56,6 +55,8 @@ class MenuScreen {
     const queryInput = document.querySelector('#query-input');
     const text = queryInput.value;
 
+    console.log({'songURL':this.optionalItem[this.selectedIndex]["songUrl"],'themeName':text});
+
     fetch("http://api.giphy.com/v1/gifs/search?q="+encodeURIComponent(text)+"&limit=25&rating=g&api_key=FjJaTP04iY5rAwcEASKET51wyx9VZ2V8")
         .then( response => {return response.json();}, response=>{console.log(response);})
         .then(this.onProcessImageUrl);
@@ -63,12 +64,10 @@ class MenuScreen {
 
   onProcessImageUrl(json){
 
-    if(json.data.length===0){
-      console.log("Error: there is no GIF in this query");
+    if(json.data.length<=2){
       this.showErrorMsg();
     }
     else{
-      this.hideErrorMsg();
       this.hide();
       const data={"songUrl":this.optionalItem[this.selectedIndex]["songUrl"], "json":json}
       document.dispatchEvent(new CustomEvent("toMusic", {detail:data}));
@@ -81,10 +80,6 @@ class MenuScreen {
 
   showErrorMsg(){
     this.errorDiv.classList.remove("inactive");
-  }
-
-  hideErrorMsg(){
-    this.errorDiv.classList.add("inactive");
   }
 }
   

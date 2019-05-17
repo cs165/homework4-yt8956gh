@@ -3,8 +3,15 @@
 //
 // See HW4 writeup for more hints and details.
 class PlayButton {
-  constructor() {
-    // TODO(you): Implement the constructor and add fields as necessary.
+  constructor(controlButton) {
+    this.controlButton = document.querySelector("#controlButton");
   }
-  // TODO(you): Add methods as necessary.
+
+  play(){
+    this.controlButton.style.backgroundImage="url('images/play.png')";
+  }
+
+  pause(){
+    this.controlButton.style.backgroundImage="url('images/pause.png')";
+  }
 }
