@@ -57,7 +57,7 @@ class MenuScreen {
 
     console.log({'songURL':this.optionalItem[this.selectedIndex]["songUrl"],'themeName':text});
 
-    fetch("http://api.giphy.com/v1/gifs/search?q="+encodeURIComponent(text)+"&limit=25&rating=g&api_key=FjJaTP04iY5rAwcEASKET51wyx9VZ2V8")
+    fetch("https://api.giphy.com/v1/gifs/search?q="+encodeURIComponent(text)+"&limit=25&rating=g&api_key=FjJaTP04iY5rAwcEASKET51wyx9VZ2V8")
         .then( response => {return response.json();}, response=>{console.log(response);})
         .then(this.onProcessImageUrl);
   }

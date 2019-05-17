@@ -57,6 +57,7 @@ class MusicScreen {
 
     this.audioPlayer.setSong(event.detail.songUrl);
     this.audioPlayer.setKickCallback(()=>{document.dispatchEvent(new Event("onKick"));});
+    this.audioPlayer.resume();
     this.audioPlayer.play();
 
     for(let key in json.data)
