@@ -29,11 +29,13 @@ class MusicScreen {
 
   onClick(){
 
-    if(this.audioPlayer===0){
+    if(this.audioPlayer===0){ //initialize
       this.audioPlayer = new AudioPlayer();
       this.audioPlayer.setSong(this.songUrl);
       this.audioPlayer.setKickCallback(()=>{document.dispatchEvent(new Event("onKick"));});
-      console.log("AudioPlayer Init")
+      console.log("AudioPlayer Init");
+
+      this.show();
     }
 
     if(this.NowShowPause)
@@ -71,8 +73,6 @@ class MusicScreen {
       imageUrl.push(url);
     }
 
-    this.gifDisplay = new GifDisplay(imageUrl);
-    this.show();
-    this.playButtonElement.dispatchEvent(new Event("autoPlayMusic"));
+    this.gifDisplay = new GifDisplay(imageUrl, this.playButtonElement);
   }
 }

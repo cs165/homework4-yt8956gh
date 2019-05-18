@@ -19,7 +19,7 @@ class MenuScreen {
      }.bind(this));
 
 
-    fetch("https://fullstackccu.github.io/homeworks/hw4/songs.json")
+    fetch("https://yt8956gh.github.io/myPlayList.json")
         .then(
             response => {return response.json();},
             response => {console.log(response.status);})
@@ -29,7 +29,7 @@ class MenuScreen {
           {
             this.optionalItem.push(json[i]);
             let tmpItem = document.createElement("option");
-            tmpItem.textContent = json[i]["artist"] +':'+ json[i]["title"];
+            tmpItem.textContent = json[i]["artist"] +': '+ json[i]["title"];
             this.selectContainer.appendChild(tmpItem);
           }
 

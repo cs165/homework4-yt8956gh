@@ -3,17 +3,44 @@
 // 
 // See HW4 writeup for more hints and details.
 class GifDisplay {
-  constructor(imageUrl) {
+  constructor(imageUrl, playButtonElement) {
     this.imageUrl = imageUrl;
     this.changeGif = this.changeGif.bind(this);
+    this.preload = this.preload.bind(this);
+    this.showFirstGif = this.showFirstGif.bind(this);
+    this.playButtonElement = playButtonElement;
 
     this.imageIndex = 0;
+    this.preloadImageIndex=0;
     this.order=0;
     this.frontGif = document.getElementById("frontGif");
     this.backGif = document.getElementById("backGif");
+    this.preloadImage = document.getElementById("preload");
+    this.loadSrceen = document.getElementById("load");
 
-    document.addEventListener("onKick",this.changeGif);
+    this.preloadImage.onload=this.preload;
+    this.preload();
+  }
 
+  preload(){
+
+    this.loadSrceen.classList.remove("inactive");
+
+    console.log("Preload-Index:" + this.preloadImageIndex);
+
+    if(this.preloadImageIndex<this.imageUrl.length){
+      this.preloadImage.src = this.imageUrl[this.preloadImageIndex];
+      this.preloadImageIndex++;
+    }
+    else{
+      this.showFirstGif();
+      document.addEventListener("onKick",this.changeGif);
+      this.playButtonElement.dispatchEvent(new Event("autoPlayMusic"));
+      this.loadSrceen.classList.add("inactive");
+    }
+  }
+
+  showFirstGif(){
     this.frontGif.style.backgroundImage="url('"+this.imageUrl[this.imageIndex]+"')";
     this.nextIndex();
     this.backGif.style.backgroundImage="url('"+this.imageUrl[this.imageIndex]+"')";

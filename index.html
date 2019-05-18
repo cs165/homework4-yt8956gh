@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="musicbox-style.css"/>
     <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <script src="./lib/dancer.min.js"></script>
+    <script src="./lib/dancer.js"></script>
     <script src="./lib/fetch.js"></script>
     <script src="audio-player.js" defer></script>
 
@@ -40,6 +40,9 @@
     </div>
 
 
+    <div id="load"><div>Loading ...</div></div>
+
+
     <div id="music" class="inactive">
       <div id="gifPicture">
         <div id="frontGif"></div>
@@ -50,6 +53,8 @@
         <div id='controlButton'></div>
       </div>
     </div>
+
+  <img id="preload" class="inactive" src="" alt="preload">
 
   </body>
 </html>
