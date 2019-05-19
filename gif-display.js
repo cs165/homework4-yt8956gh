@@ -7,6 +7,7 @@ class GifDisplay {
     this.imageUrl = imageUrl;
     this.changeGif = this.changeGif.bind(this);
     this.preload = this.preload.bind(this);
+    this.loadFinish = this.loadFinish.bind(this);
     this.showFirstGif = this.showFirstGif.bind(this);
     this.playButtonElement = playButtonElement;
 
@@ -15,24 +16,29 @@ class GifDisplay {
     this.order=0;
     this.frontGif = document.getElementById("frontGif");
     this.backGif = document.getElementById("backGif");
-    this.preloadImage = document.getElementById("preload");
     this.loadSrceen = document.getElementById("load");
+    this.loadSrceen.classList.remove("inactive");
 
-    this.preloadImage.onload=this.preload;
     this.preload();
   }
 
   preload(){
 
-    this.loadSrceen.classList.remove("inactive");
+    for(let i=0;i<this.imageUrl.length;i++)
+    {
+      let tmpImage = new Image();
+      tmpImage.src=this.imageUrl[i];
+      tmpImage.onload = this.loadFinish;
+    }
+  }
 
+  loadFinish(){
+
+    this.preloadImageIndex++;
     console.log("Preload-Index:" + this.preloadImageIndex);
 
-    if(this.preloadImageIndex<this.imageUrl.length){
-      this.preloadImage.src = this.imageUrl[this.preloadImageIndex];
-      this.preloadImageIndex++;
-    }
-    else{
+    if(this.preloadImageIndex===this.imageUrl.length)
+    {
       this.showFirstGif();
       document.addEventListener("onKick",this.changeGif);
       this.playButtonElement.dispatchEvent(new Event("autoPlayMusic"));
